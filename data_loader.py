@@ -100,6 +100,7 @@ class TSFDataLoader:
     self.train_df = scale_df(train_df, self.scaler)
     self.val_df = scale_df(val_df, self.scaler)
     self.test_df = scale_df(test_df, self.scaler)
+    self.df_full = scale_df(df_full, self.scaler)
     self.n_feature = self.train_df.shape[-1]
 
   def _split_window(self, data):
