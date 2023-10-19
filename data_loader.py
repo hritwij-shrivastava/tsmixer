@@ -84,7 +84,7 @@ class TSFDataLoader:
       val_end = n - int(n * 0.2)
       test_end = n
 
-    self.df_full = df[:]
+    df_full = df[:]
     train_df = df[:train_end]
     val_df = df[train_end - self.seq_len : val_end]
     test_df = df[val_end - self.seq_len : test_end]
