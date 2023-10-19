@@ -58,7 +58,7 @@ class TSFDataLoader:
       )
 
     df_raw = pd.read_csv(cache_filepath)
-    self.df_full = pd.read_csv(cache_filepath)
+    
 
     # S: univariate-univariate, M: multivariate-multivariate, MS:
     # multivariate-univariate
@@ -83,6 +83,8 @@ class TSFDataLoader:
       train_end = int(n * 0.7)
       val_end = n - int(n * 0.2)
       test_end = n
+
+    self.df_full = df[:]
     train_df = df[:train_end]
     val_df = df[train_end - self.seq_len : val_end]
     test_df = df[val_end - self.seq_len : test_end]
