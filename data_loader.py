@@ -132,3 +132,6 @@ class TSFDataLoader:
 
   def get_test(self):
     return self._make_dataset(self.test_df, shuffle=False)
+  
+  def get_full(self):
+    return self._make_dataset(self.df_raw, shuffle=False)
