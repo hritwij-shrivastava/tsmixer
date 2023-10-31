@@ -129,13 +129,13 @@ class TSFDataLoader:
     return self.scaler.inverse_transform(data)
 
   def get_train(self, shuffle=True):
-    return self._make_dataset(self.train_df, shuffle=shuffle)
+    return (self._make_dataset(self.train_df, shuffle=shuffle),self.train_df)
 
   def get_val(self):
-    return self._make_dataset(self.val_df, shuffle=False)
+    return (self._make_dataset(self.val_df, shuffle=False),self.val_df)
 
   def get_test(self):
-    return self._make_dataset(self.test_df, shuffle=False)
+    return (self._make_dataset(self.test_df, shuffle=False),self.test_df)
   
   def get_full(self):
-    return self._make_dataset(self.df_full, shuffle=False)
+    return (self._make_dataset(self.df_full, shuffle=False),self.df_full)
