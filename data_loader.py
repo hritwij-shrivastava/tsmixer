@@ -20,6 +20,7 @@ import os
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
 import tensorflow as tf
 
 
@@ -31,13 +32,16 @@ class TSFDataLoader:
   """Generate data loader from raw data."""
 
   def __init__(
-      self, data, batch_size, seq_len, pred_len, feature_type, target='OT'
+      self, data, batch_size, seq_len, pred_len, feature_type, train_len, scaler_type, target='OT'
   ):
     self.data = data
     self.batch_size = batch_size
     self.seq_len = seq_len
     self.pred_len = pred_len
     self.feature_type = feature_type
+    self.train_len = train_len - 0.05
+    self.test_len = 1 - train_len
+    self.scaler_type = scaler_type
     self.target = target
     self.target_slice = slice(0, None)
 
@@ -71,18 +75,10 @@ class TSFDataLoader:
 
     # split train/valid/test
     n = len(df)
-    if self.data.startswith('ETTm'):
-      train_end = 12 * 30 * 24 * 4
-      val_end = train_end + 4 * 30 * 24 * 4
-      test_end = val_end + 4 * 30 * 24 * 4
-    elif self.data.startswith('ETTh'):
-      train_end = 12 * 30 * 24
-      val_end = train_end + 4 * 30 * 24
-      test_end = val_end + 4 * 30 * 24
-    else:
-      train_end = int(n * 0.7)
-      val_end = n - int(n * 0.2)
-      test_end = n
+  
+    train_end = int(n * self.train_len)
+    val_end = n - int(n * self.test_len)
+    test_end = n
 
     df_full = df[:]
     train_df = df[:train_end]
@@ -90,7 +86,10 @@ class TSFDataLoader:
     test_df = df[val_end - self.seq_len : test_end]
 
     # standardize by training set
-    self.scaler = StandardScaler()
+    if(self.scaler_type == 'S'):
+      self.scaler = StandardScaler()
+    else:
+      self.scaler = MinMaxScaler()
     self.scaler.fit(train_df.values)
 
     def scale_df(df, scaler):
