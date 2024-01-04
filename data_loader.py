@@ -138,3 +138,6 @@ class TSFDataLoader:
   
   def get_full(self):
     return self._make_dataset(self.df_full, shuffle=False)
+
+  def get_median(self):
+    return (self.train_df.median(), self.val_df.median(), self.test_df.median(),  self.df_full.median())
