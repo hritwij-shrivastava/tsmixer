@@ -85,21 +85,28 @@ class TSFDataLoader:
     val_df = df[train_end - self.seq_len : val_end]
     test_df = df[val_end - self.seq_len : test_end]
 
-    # standardize by training set
-    if(self.scaler_type == 'S'):
-      self.scaler = StandardScaler()
-    else:
-      self.scaler = MinMaxScaler()
-    self.scaler.fit(train_df.values)
-
     def scale_df(df, scaler):
       data = scaler.transform(df.values)
       return pd.DataFrame(data, index=df.index, columns=df.columns)
 
-    self.train_df = scale_df(train_df, self.scaler)
-    self.val_df = scale_df(val_df, self.scaler)
-    self.test_df = scale_df(test_df, self.scaler)
-    self.df_full = scale_df(df_full, self.scaler)
+    # standardize by training set
+    if self.scaler_type == 'U':
+      self.train_df = train_df
+      self.val_df = val_df
+      self.test_df = test_df
+      self.df_full = df_full
+    else:
+      if(self.scaler_type == 'S'):
+        self.scaler = StandardScaler()
+      elif(self.scaler_type == 'M'):
+        self.scaler = MinMaxScaler()
+      self.scaler.fit(train_df.values)
+
+      self.train_df = scale_df(train_df, self.scaler)
+      self.val_df = scale_df(val_df, self.scaler)
+      self.test_df = scale_df(test_df, self.scaler)
+      self.df_full = scale_df(df_full, self.scaler)
+
     self.n_feature = self.train_df.shape[-1]
 
   def _split_window(self, data):
