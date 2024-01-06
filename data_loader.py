@@ -39,8 +39,8 @@ class TSFDataLoader:
     self.seq_len = seq_len
     self.pred_len = pred_len
     self.feature_type = feature_type
-    self.train_len = train_len - 0.05
-    self.test_len = 1 - train_len
+    self.train_len = round(train_len - 0.05,2)
+    self.test_len = round(1 - train_len,2)
     self.scaler_type = scaler_type
     self.target = target
     self.target_slice = slice(0, None)
