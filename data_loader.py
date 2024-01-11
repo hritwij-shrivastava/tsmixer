@@ -134,7 +134,7 @@ class TSFDataLoader:
   def inverse_transform(self, data):
     return self.scaler.inverse_transform(data)
 
-  def get_train(self, shuffle=True):
+  def get_train(self, shuffle=False):
     return self._make_dataset(self.train_df, shuffle=shuffle)
 
   def get_val(self):
