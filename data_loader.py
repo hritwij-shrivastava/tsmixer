@@ -137,14 +137,14 @@ class TSFDataLoader:
   def get_train(self, shuffle=False):
     return self._make_dataset(self.train_df, shuffle=shuffle)
 
-  def get_val(self):
-    return self._make_dataset(self.val_df, shuffle=False)
+  def get_val(self, shuffle=False):
+    return self._make_dataset(self.val_df, shuffle=shuffle)
 
-  def get_test(self):
-    return self._make_dataset(self.test_df, shuffle=False)
+  def get_test(self, shuffle=False):
+    return self._make_dataset(self.test_df, shuffle=shuffle)
   
-  def get_full(self):
-    return self._make_dataset(self.df_full, shuffle=False)
+  def get_full(self, shuffle=False):
+    return self._make_dataset(self.df_full, shuffle=shuffle)
 
   def get_median(self):
     return (self.train_df[self.target].median(), self.val_df[self.target].median(), self.test_df[self.target].median(),  self.df_full[self.target].median())
